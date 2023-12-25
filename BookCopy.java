@@ -1,7 +1,11 @@
+import java.util.concurrent.locks.ReentrantLock;
+
 public class BookCopy {
     private String copyId;
     private boolean isCheckedOut;
     private String condition;
+    private ReentrantLock checkoutLock = new ReentrantLock();
+    private ReentrantLock returnLock = new ReentrantLock();
 
     BookCopy(String copyId, boolean isCheckedOut, String condition){
         this.copyId = copyId;
@@ -34,10 +38,32 @@ public class BookCopy {
     }
 
     public void checkoutCopy(){
-        isCheckedOut = true;
+        checkoutLock.lock();
+        try{
+            if(isCheckedOut){
+                System.out.println("Error: This book is already checked out");
+            }
+            else{
+                isCheckedOut = true;
+            }
+        }
+        finally{
+            checkoutLock.unlock();
+        }
     }
 
     public void returnCopy(){
-        isCheckedOut = false;
+        returnLock.lock();
+        try{
+            if(!isCheckedOut){
+                System.out.println("Error: This book has not been checked out");
+            }
+            else{
+                isCheckedOut = false;
+            }
+        }
+        finally{
+            returnLock.unlock();
+        }
     }
 }
