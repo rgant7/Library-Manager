@@ -3,8 +3,8 @@ import java.util.HashMap;
 public class Member {
     private String name;
     private String memberId;
-    private int bookCount;
     private HashMap<String, BookCopy> borrowedBooks;
+    private int bookCount = borrowedBooks.size();
 
     public Member(String name, String memberId) {
         this.name = name;
@@ -56,12 +56,10 @@ public class Member {
         BookCopy copy = book.getCopies().get(copyId);
         
         borrowedBooks.put(copyId, copy);
-        bookCount++;
     }
 
     public synchronized void returnBook(Library library, String ISBN, String copyId){
         library.returnCopy(ISBN, copyId);
         borrowedBooks.remove(copyId);
-        bookCount--;
     }
 }
