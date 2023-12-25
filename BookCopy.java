@@ -1,16 +1,16 @@
 public class BookCopy {
-    private String id;
+    private String copyId;
     private boolean isCheckedOut;
     private String condition;
 
-    BookCopy(String id, boolean isCheckedOut, String condition){
-        this.id = id;
+    BookCopy(String copyId, boolean isCheckedOut, String condition){
+        this.copyId = copyId;
         this.isCheckedOut = isCheckedOut;
         this.condition = condition;
     }
 
     public String getId() {
-        return this.id;
+        return this.copyId;
     }
 
     public boolean getIsCheckedOut() {
@@ -21,8 +21,8 @@ public class BookCopy {
         return this.condition;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String copyId) {
+        this.copyId = copyId;
     }
 
     public void setIsCheckedOut(boolean isCheckedOut) {

@@ -45,20 +45,20 @@ public class Book {
         this.copies = copies;
     }
 
-    public void checkoutCopy(String id){
-        BookCopy copy = copies.get(id);
+    public void checkoutCopy(String copyId){
+        BookCopy copy = copies.get(copyId);
         if (copy == null){
-            System.out.println("Error: book " + title + " with value of " + id + "does not exist");
+            System.out.println("Error: book " + title + " with value of " + copyId + "does not exist");
         }
         else {
             copy.checkoutCopy();
         }
     }
 
-    public void returnCopy(String id){
-        BookCopy copy = copies.get(id);
+    public void returnCopy(String copyId){
+        BookCopy copy = copies.get(copyId);
         if (copy == null){
-            System.out.println("Error: book " + title + " with value of " + id + "does not exist");
+            System.out.println("Error: book " + title + " with value of " + copyId + "does not exist");
         }
         else {
             copy.returnCopy();
