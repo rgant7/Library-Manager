@@ -4,11 +4,11 @@ public class Student extends Member {
     }
 
     @Override
-    public synchronized void checkoutBook(Library library, String ISBN, String copyId) {
+    public synchronized Pair<Boolean, String> checkoutBook(Library library, String ISBN, String copyId) {
         if(getBookCount() >= 8) { // Students can check out up to 5 books
-            System.out.println("Error: Students can only have 5 checked out books at a time. Please return a book.");
-            return;
+            String errorMessage = "Error: Students can only have 5 checked out books at a time. Please return a book.";
+            return new Pair<>(false, errorMessage);
         }
-        super.checkoutBook(library, ISBN, copyId);
+        return super.checkoutBook(library, ISBN, copyId);
     }
 }

@@ -4,13 +4,13 @@ public class Member {
     private String name;
     private String memberId;
     private HashMap<String, BookCopy> borrowedBooks;
-    private int bookCount = borrowedBooks.size();
+    private int bookCount;
 
     public Member(String name, String memberId) {
         this.name = name;
         this.memberId = memberId;
         this.bookCount = 0;
-        this.borrowedBooks = new HashMap<>();
+        this.borrowedBooks = new HashMap<String, BookCopy>();
     }
 
     public String getName() {
@@ -43,23 +43,37 @@ public class Member {
 
     public void setBorrowedBooks(HashMap<String, BookCopy> borrowedBooks) {
         this.borrowedBooks = borrowedBooks;
+        bookCount = this.borrowedBooks.size();
     }
 
-    public synchronized void checkoutBook(Library library, String ISBN, String copyId){
+    public synchronized Pair<Boolean, String> checkoutBook(Library library, String ISBN, String copyId){
         if(bookCount >= 5){
-            System.out.println("Error: Members can only have 5 checked out books at a time. Please return a books");
-            return;
+            String errorMessage = "Error: Members can only have 5 checked out books at a time. Please return a books";
+            return new Pair<>(false, errorMessage);
         }
-        library.checkoutCopy(ISBN, copyId);
+        Pair<Boolean, String> checkoutPair = library.checkoutCopy(ISBN, copyId);
+        if (checkoutPair.getValue1()){
+            Book book = library.getBooks().get(ISBN);
+            BookCopy copy = book.getCopies().get(copyId);
+            
+            borrowedBooks.put(copyId, copy);
+            bookCount = borrowedBooks.size();
+        }
 
-        Book book = library.getBooks().get(ISBN);
-        BookCopy copy = book.getCopies().get(copyId);
-        
-        borrowedBooks.put(copyId, copy);
+        return checkoutPair;
     }
 
     public synchronized void returnBook(Library library, String ISBN, String copyId){
         library.returnCopy(ISBN, copyId);
         borrowedBooks.remove(copyId);
+        bookCount = borrowedBooks.size();
+    }
+
+    public String borrowedBooksToString(){
+        String returnedString = "\n";
+        for (BookCopy value : borrowedBooks.values()) {
+            returnedString += value.getTitle() + ", ID: " + value.getId() + '\n';
+        }
+        return returnedString;
     }
 }

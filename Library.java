@@ -15,25 +15,26 @@ public class Library {
         this.books = books;
     }
 
-    public void checkoutCopy(String ISBN, String copyId){
+    public Pair<Boolean, String> checkoutCopy(String ISBN, String copyId){
         Book book = books.get(ISBN);
         if (book == null){
-            System.out.println("Error: ISBN " + ISBN + "does not exist");
+            String errorMessage = "Error: ISBN " + ISBN + "does not exist";
+            return new Pair<>(false, errorMessage);
         }
         else {
-            //functionality is abstracted away into Book class
-            book.checkoutCopy(copyId);
+            return book.checkoutCopy(copyId);
         }
     }
 
-    public void returnCopy(String ISBN, String copyId){
+    public boolean returnCopy(String ISBN, String copyId){
         Book book = books.get(ISBN);
         if (book == null){
             System.out.println("Error: ISBN " + ISBN + "does not exist");
+            return false;
         }
         else {
             //functionality is abstracted away into Book class
-            book.returnCopy(copyId);
+            return book.returnCopy(copyId);
         }
     }
 }

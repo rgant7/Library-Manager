@@ -45,23 +45,25 @@ public class Book {
         this.copies = copies;
     }
 
-    public void checkoutCopy(String copyId){
+    public Pair<Boolean, String> checkoutCopy(String copyId){
         BookCopy copy = copies.get(copyId);
         if (copy == null){
-            System.out.println("Error: book " + title + " with value of " + copyId + "does not exist");
+            String errorMessage = "Error: book " + title + " with value of " + copyId + "does not exist";
+            return new Pair<>(false, errorMessage);
         }
         else {
-            copy.checkoutCopy();
+            return copy.checkoutCopy();
         }
     }
 
-    public void returnCopy(String copyId){
+    public boolean returnCopy(String copyId){
         BookCopy copy = copies.get(copyId);
         if (copy == null){
             System.out.println("Error: book " + title + " with value of " + copyId + "does not exist");
+            return false;
         }
         else {
-            copy.returnCopy();
+            return copy.returnCopy();
         }
     }
 }

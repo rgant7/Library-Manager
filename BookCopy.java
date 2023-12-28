@@ -1,16 +1,24 @@
 import java.util.concurrent.locks.ReentrantLock;
 
-public class BookCopy {
+public class BookCopy extends Book {
     private String copyId;
     private boolean isCheckedOut;
     private String condition;
     private ReentrantLock checkoutLock = new ReentrantLock();
     private ReentrantLock returnLock = new ReentrantLock();
 
-    BookCopy(String copyId, boolean isCheckedOut, String condition){
+    BookCopy(String title, String author, String ISBN, String copyId, boolean isCheckedOut, String condition){
+        super(title, author, ISBN, null);
         this.copyId = copyId;
         this.isCheckedOut = isCheckedOut;
         this.condition = condition;
+    }
+
+    BookCopy(){
+        super("title", "author", "ISBN", null);
+        this.copyId = "copyId";
+        this.isCheckedOut = false;
+        this.condition = "condition";
     }
 
     public String getId() {
@@ -37,14 +45,16 @@ public class BookCopy {
         this.condition = condition;
     }
 
-    public void checkoutCopy(){
+    public Pair <Boolean, String> checkoutCopy(){
         checkoutLock.lock();
         try{
             if(isCheckedOut){
-                System.out.println("Error: This book is already checked out");
+                String errorMessage = "Error: Book \"" + getTitle() + "\" with ID \"" + getId() + "\" is already checked out.";
+                return new Pair<>(false, errorMessage);
             }
             else{
                 isCheckedOut = true;
+                return new Pair <>(true, "");
             }
         }
         finally{
@@ -52,14 +62,16 @@ public class BookCopy {
         }
     }
 
-    public void returnCopy(){
+    public boolean returnCopy(){
         returnLock.lock();
         try{
             if(!isCheckedOut){
                 System.out.println("Error: This book has not been checked out");
+                return false;
             }
             else{
                 isCheckedOut = false;
+                return true;
             }
         }
         finally{
