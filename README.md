@@ -2,12 +2,12 @@
 
 ## Description
 This project is a multi-threaded library management system designed to handle multiple users borrowing and returning books concurrently. 
-It demonstrates the four pillars of Object-Oriented Programming (Encapsulation, Inheritence, Polymorphism, Abstraction), multi-threading, and database interaction.
+It demonstrates the four pillars of Object-Oriented Programming (Encapsulation, Inheritence, Polymorphism, Abstraction), as well as multi-threading, and Gradle organization.
 
 ## Features
 - Object-Oriented Programming: The system employs encapsulation, inheritance, polymorphism, and abstraction.
 - Multi-threading: Allows multiple users to access the library concurrently with synchronization to prevent race conditions.
-- Database Interaction: Uses a database to store information about the books, users, and transactions.
+- Gradle: Allows users to build project easily, test easily, and make dependencies easy to see
 
 ## Installation
 
